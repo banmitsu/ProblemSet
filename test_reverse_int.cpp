@@ -1,7 +1,14 @@
 #include <iostream>
 #include <math.h>
 
-void reverse(int in, char* out)
+void process(int digit, int num, char* out);
+
+void recursive_reverse(int in, char* out)
+{
+	process(1, in, out);
+}
+
+void iterative_reverse(int in, char* out)
 {
 	const static double decimal = 10;
 
@@ -20,12 +27,29 @@ void reverse(int in, char* out)
 	}
 }
 
+void process(int digit, int num, char* out)
+{
+	const static double decimal = 10;
+
+	int remain = num % (int)pow(decimal,(double)digit);
+	sprintf(out+digit-1, "%d", (int)(remain/pow(decimal, (double)(digit-1)))) ;
+	
+	num = num - remain;
+	double b = floor( (double)num/pow(decimal,(double)digit) );
+	if (b == 0)
+		return;
+	else{
+		process(digit+1, num, out);
+	}	
+}
+
 int main()
 {
 	int x = 35628;
 	char* out;
 
-	reverse(x, out);
+	//reverse(x, out);
+	recursive_reverse(x, out);
 	std::cout << "The int: " << x << "\n";
 	std::cout << "The reverse string: " << out << "\n";
 }
